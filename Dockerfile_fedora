@@ -1,5 +1,7 @@
+
+
 ARG RUST_VERSION=1.80
-FROM docker.io/library/rust:${RUST_VERSION}-slim-bookworm AS build
+FROM docker.io/library/rust:${RUST_VERSION} AS build
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
@@ -14,12 +16,9 @@ WORKDIR /app/oha
 RUN cargo install --path .
 RUN strip /usr/local/cargo/bin/oha
 
-ENTRYPOINT ["/usr/local/cargo/bin/oha"]
-
 # Target image
-FROM debian:bookworm-slim
-
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
+FROM registry.fedoraproject.org/fedora-minimal
+USER 65535
 
 ARG APPLICATION="oha-docker"
 ARG DESCRIPTION="Lightweight, multi-arch, minimal docker image of Oha, a tiny program that sends some load to a web application and show realtime tui inspired by rakyll/hey"
@@ -32,6 +31,6 @@ LABEL name="${PACKAGE}" \
     licenses="MIT License" \
     source="https://github.com/${PACKAGE}"
 
-COPY --from=build /usr/local/cargo/bin/oha /bin/oha
+COPY --chown=65535:65535 --from=build /usr/local/cargo/bin/oha /bin/oha
 
 ENTRYPOINT ["/bin/oha"]

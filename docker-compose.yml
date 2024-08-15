@@ -1,0 +1,5 @@
+services:
+  oha-docker:
+    build: .
+    container_name: oha-docker
+

@@ -17,7 +17,9 @@ RUN strip /usr/local/cargo/bin/oha
 ENTRYPOINT ["/usr/local/cargo/bin/oha"]
 
 # Target image
-FROM gcr.io/distroless/cc-debian12
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 ARG APPLICATION="oha-docker"
 ARG DESCRIPTION="Lightweight, multi-arch, minimal docker image of Oha, a tiny program that sends some load to a web application and show realtime tui inspired by rakyll/hey"

@@ -25,7 +25,7 @@ prints stats. A basic usage could be
 $ docker run --rm  ahmadalsajid/oha-docker -n 1000 -c 100 https://google.com
 ```
 
-`-q` option works different from [rakyll/hey]https://github.com/rakyll/hey. It's set overall query per second instead of
+`-q` option works different from [rakyll/hey](https://github.com/rakyll/hey). It's set overall query per second instead of
 for each worker.
 
 ```bash

@@ -2,8 +2,8 @@
 
 [![Github Actions](https://github.com/ahmadalsajid/oha-docker/actions/workflows/actions.yml/badge.svg?branch=main)](https://github.com/ahmadalsajid/oha-docker/actions/workflows/actions.yml/badge.svg?branch=main)
 
-Multi-arch docker image of [OHA](https://github.com/hatoo/oha), inspired by
-[rakyll/hey](https://github.com/rakyll/hey),
+Minimal, Multi-arch, lightweight docker image of [OHA](https://github.com/hatoo/oha), 
+inspired by [rakyll/hey](https://github.com/rakyll/hey),
 
 Oha is written in Rust and powered by [tokio](https://github.com/tokio-rs/tokio)
 and beautiful tui by [ratatui](https://github.com/ratatui-org/ratatui).

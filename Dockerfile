@@ -1,3 +1,4 @@
+# build image
 ARG RUST_VERSION=1.80
 FROM docker.io/library/rust:${RUST_VERSION}-slim-bookworm AS build
 WORKDIR /app
@@ -13,8 +14,6 @@ WORKDIR /app/oha
 
 RUN cargo install --path .
 RUN strip /usr/local/cargo/bin/oha
-
-ENTRYPOINT ["/usr/local/cargo/bin/oha"]
 
 # Target image
 FROM gcr.io/distroless/cc-debian12

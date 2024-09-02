@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: "0 0 * * 1"   # Every monday, pull the latest from the main repository and release the latest update
 
 jobs:
   test_amd64:

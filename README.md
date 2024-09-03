@@ -2,7 +2,7 @@
 
 [![Github Actions](https://github.com/ahmadalsajid/oha-docker/actions/workflows/actions.yml/badge.svg?branch=main)](https://github.com/ahmadalsajid/oha-docker/actions/workflows/actions.yml/badge.svg?branch=main)
 
-Minimal, Multi-arch, lightweight docker image of [OHA](https://github.com/hatoo/oha), 
+Minimal, Multi-arch, lightweight docker image of [OHA](https://github.com/hatoo/oha),
 inspired by [rakyll/hey](https://github.com/rakyll/hey),
 
 Oha is written in Rust and powered by [tokio](https://github.com/tokio-rs/tokio)
@@ -18,15 +18,61 @@ $ docker pull ahmadalsajid/oha-docker
 
 ## Usage
 
-hey runs provided number of requests in the provided concurrency level and
-prints stats. A basic usage could be
+`ahmadalsajid/oha-docker` runs provided number of requests in the provided 
+concurrency level and prints stats. A basic usage could be
 
 ```
 $ docker run --rm -it ahmadalsajid/oha-docker -n 1000 -c 100 https://google.com
 ```
 
-`-q` option works different from [rakyll/hey](https://github.com/rakyll/hey). It's set overall query per second instead of
-for each worker.
+Also, local http services can be tested with `ahmadalsajid/oha-docker`. Take 
+this structure as an example
+
+```
+services:
+  nginx:
+    build: ./nginx
+    hostname: nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - app
+    networks:
+      - my_network
+
+  app:
+    build: ./app
+    hostname: app
+    ports:
+      - 8000
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    name: my_network
+    driver: bridge
+```
+
+The tests can be conducted with
+
+```
+$ docker run --network host --rm -it ahmadalsajid/oha-docker -n 1000 -c 100 http://localhost:1337/
+```
+
+Or,
+
+```
+$ docker run --network my_network --rm -it ahmadalsajid/oha-docker -n 1000 -c 100 http://nginx/
+```
+
+> In the first example,oha-docker connected to the host network, that's
+> why targeting `localhost` on port `1337`.    
+> In the second example, connected to the custom network that other services
+> are running, hence, pointed using the service name.
+
+`-q` option works different from [rakyll/hey](https://github.com/rakyll/hey).
+It's set overall query per second instead of for each worker.
 
 ```bash
 Options:
